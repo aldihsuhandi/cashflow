@@ -1,6 +1,15 @@
-class Row
+class Row 
 {
-  late String _desc;
-  late int _money;
-  late bool _debit;
+    late String desc;
+    late int money;
+    late String type;
+
+    Row(this.desc, this.money, this.type);
+
+    Row.fromMap(Map map)
+    {
+        desc = map[desc];
+        money = map[money];
+        type = map[type];
+    }
 }

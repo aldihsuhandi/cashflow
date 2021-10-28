@@ -4,6 +4,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'package:cashflow/model/row.dart';
+
 class DatabaseHelper
 {
     static final _databaseName = "CashFlowDB";
@@ -33,13 +35,14 @@ class DatabaseHelper
     static late Database _database;
     Future<Database> get database async
     {
-        return _database ??= await _initDatabase();
-        // if(_database == null)
-        // {
-        //     _database = await _initDatabase();
-        // }
+        if(_database != null)
+        {
+            return _database;
+        }
 
-        // return _database;
+        _database = await _initDatabase();
+        return _database;
+
     }
 
     _initDatabase() async
@@ -56,26 +59,42 @@ class DatabaseHelper
     Future _onCreate(Database db, int version) async
     {
         await db.execute('''
-            CREATE TABLE row_types {
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL
-            };
-        ''');
-
-        await db.execute('''
-            INSERT INTO row_types(name)
-            VALUES('Credit'), ('Debit');
-        ''');
-
-        await db.execute('''
             CREATE TABLE rows {
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 description TEXT NOT NULL,
                 money INTEGER NOT NULL,
-                type_id INTEGER NOT NULL,
-                FOREIGN KEY(type_id) REFERENCES row_types(id)
+                type TEXT NOT NULL,
             };
         ''');
+    }
 
+    // Helper methods
+    void saveRow(Row row) async
+    {
+        String rowDesc = row.desc;
+        int rowMoney = row.money;
+        String rowType = row.type;
+        var dbInstance = await database;
+        await dbInstance.transaction((txn) async {
+            return await txn.rawInsert('''
+                INSERT rows(description, money, type)
+                VALUES ($rowDesc, $rowMoney, $rowType)
+            ''');
+        });
+    }
+
+    Future<List<Row>> getRows() async
+    {
+        var dbInstance = await database;
+        List<Map> list = await dbInstance.rawQuery('SELECT * FROM rows');
+        List<Row> rows = [];
+
+        for(int i = 0;i < list.length; i++){
+            rows.add(Row(list[i]["description"], list[i]["money"], list[i]["type"]));
+        }
+
+        // ignore: avoid_print
+        print(rows.length);
+        return rows;
     }
 }
