@@ -9,6 +9,7 @@ void main() async
         MaterialApp(
             theme: ThemeData(
                 backgroundColor: HexColor('#7aa6ed'),
+                primaryColor: HexColor('#eceff4'),
             ),
             home: HomePage(),
         ),

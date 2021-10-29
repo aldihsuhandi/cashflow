@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'package:cashflow/model/row.dart';
+import 'package:cashflow/model/entry.dart';
 
 class DatabaseHelper
 {
@@ -59,7 +59,7 @@ class DatabaseHelper
     Future _onCreate(Database db, int version) async
     {
         await db.execute('''
-            CREATE TABLE rows {
+            CREATE TABLE entries {
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 description TEXT NOT NULL,
                 money INTEGER NOT NULL,
@@ -69,32 +69,32 @@ class DatabaseHelper
     }
 
     // Helper methods
-    void saveRow(Row row) async
+    void saveEntry(Entry entry) async
     {
-        String rowDesc = row.desc;
-        int rowMoney = row.money;
-        String rowType = row.type;
+        String entryDesc = entry.desc;
+        int entryMoney = entry.money;
+        String entryType = entry.type;
         var dbInstance = await database;
         await dbInstance.transaction((txn) async {
             return await txn.rawInsert('''
-                INSERT rows(description, money, type)
-                VALUES ($rowDesc, $rowMoney, $rowType)
+                INSERT entries(description, money, type)
+                VALUES ($entryDesc, $entryMoney, $entryType)
             ''');
         });
     }
 
-    Future<List<Row>> getRows() async
+    Future<List<Entry>> getEntries() async
     {
         var dbInstance = await database;
-        List<Map> list = await dbInstance.rawQuery('SELECT * FROM rows');
-        List<Row> rows = [];
+        List<Map> list = await dbInstance.rawQuery('SELECT * FROM entries');
+        List<Entry> entries = [];
 
         for(int i = 0;i < list.length; i++){
-            rows.add(Row(list[i]["description"], list[i]["money"], list[i]["type"]));
+            entries.add(Entry(list[i]["description"], list[i]["money"], list[i]["type"]));
         }
 
         // ignore: avoid_print
-        print(rows.length);
-        return rows;
+        print(entries.length);
+        return entries;
     }
 }
