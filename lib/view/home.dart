@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:cashflow/view/header.dart';
 import 'package:cashflow/view/add.dart';
 import 'package:cashflow/controller/entrycontroller.dart';
 
@@ -12,8 +11,17 @@ class HomePage extends StatelessWidget
     Widget build(BuildContext context)
     {
         return Scaffold(
-            // backgroundColor: context.backgroundColor,
-            appBar: TopBar("Home", false),
+            appBar: AppBar(
+              backgroundColor: Theme.of(context).backgroundColor,
+              title: const Center(
+                child: Text(
+                  "CashFlow",
+                  style: TextStyle(
+                    fontSize: 14
+                  ),
+                ),
+              ),
+            ),
             floatingActionButton: Container(
                 width: 40,
                 height: 40,
