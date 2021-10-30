@@ -4,8 +4,28 @@ import 'package:cashflow/controller/entrycontroller.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class AddView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AddScreen();
+  }
+}
+
+class AddScreen extends StatefulWidget {
+  @override
+  State<AddScreen> createState() => _AddScreen();
+}
+
+class _AddScreen extends State<AddScreen> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController moneyController = TextEditingController();
+
+  List<String> types = ["Credit", "Debit"];
+  String typeVal = "";
+  @override
+  void initState() {
+    super.initState();
+    typeVal = types[0];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +59,7 @@ class AddView extends StatelessWidget {
         ),
       ),
       body: Container(
-        padding: const EdgeInsets.all(5),
+        padding: const EdgeInsets.all(10),
         child: Column(children: [
           TextField(
             controller: descriptionController,
@@ -57,53 +77,33 @@ class AddView extends StatelessWidget {
           Row(
             // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text("Type of transaction"),
+              const Text("Type of transaction"),
               const SizedBox(width: 10),
-              TypeComboBox()
+              DropdownButton<String>(
+                value: typeVal,
+                // isExpanded: true,
+                icon: const Icon(Icons.arrow_downward),
+                iconSize: 12,
+                elevation: 16,
+                style: const TextStyle(
+                  color: Color(0xff2e3440),
+                  fontSize: 12,
+                  fontWeight: FontWeight.normal,
+                ),
+                onChanged: (String? newVal) {
+                  setState(() {
+                    typeVal = newVal!;
+                  });
+                },
+                items: types.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                      value: value, child: Text(value));
+                }).toList(),
+              ),
             ],
           ),
         ]),
       ),
-    );
-  }
-}
-
-class TypeComboBox extends StatefulWidget {
-  @override
-  State<TypeComboBox> createState() => _TypeComboBox();
-}
-
-class _TypeComboBox extends State<TypeComboBox> {
-  List<String> types = ["Credit", "Debit"];
-  String val = "";
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    val = types[0];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: val,
-      // isExpanded: true,
-      icon: Icon(Icons.arrow_downward),
-      iconSize: 12,
-      elevation: 16,
-      style: const TextStyle(
-        color: Color(0xff2e3440),
-        fontSize: 12,
-        fontWeight: FontWeight.normal,
-      ),
-      onChanged: (String? newVal) {
-        setState(() {
-          val = newVal!;
-        });
-      },
-      items: types.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(value: value, child: Text(value));
-      }).toList(),
     );
   }
 }

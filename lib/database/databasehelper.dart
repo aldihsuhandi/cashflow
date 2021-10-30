@@ -25,6 +25,7 @@ class DatabaseHelper {
 
   static late Database _database;
   Future<Database> get database async {
+    // ignore: unnecessary_null_comparison
     if (_database != null) {
       return _database;
     }
@@ -42,13 +43,13 @@ class DatabaseHelper {
 
   Future _onCreate(Database db, int version) async {
     await db.execute('''
-            CREATE TABLE entries {
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                description TEXT NOT NULL,
-                money INTEGER NOT NULL,
-                type TEXT NOT NULL,
-            };
-        ''');
+        CREATE TABLE entries {
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          description TEXT NOT NULL,
+          money INTEGER NOT NULL,
+          type TEXT NOT NULL,
+        };
+      ''');
   }
 
   // Helper methods
@@ -59,9 +60,9 @@ class DatabaseHelper {
     var dbInstance = await database;
     await dbInstance.transaction((txn) async {
       return await txn.rawInsert('''
-                INSERT entries(description, money, type)
-                VALUES ($entryDesc, $entryMoney, $entryType)
-            ''');
+          INSERT entries(description, money, type)
+          VALUES ($entryDesc, $entryMoney, $entryType)
+        ''');
     });
   }
 
