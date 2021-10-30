@@ -54,8 +54,14 @@ class AddView extends StatelessWidget {
                 border: OutlineInputBorder(), labelText: 'Rp. '),
           ),
           const SizedBox(height: 12),
-          Text("Type of transaction"),
-          TypeComboBox()
+          Row(
+            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text("Type of transaction"),
+              const SizedBox(width: 10),
+              TypeComboBox()
+            ],
+          ),
         ]),
       ),
     );
@@ -81,7 +87,7 @@ class _TypeComboBox extends State<TypeComboBox> {
   Widget build(BuildContext context) {
     return DropdownButton<String>(
       value: val,
-      isExpanded: true,
+      // isExpanded: true,
       icon: Icon(Icons.arrow_downward),
       iconSize: 12,
       elevation: 16,
