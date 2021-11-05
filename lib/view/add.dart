@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 
 import 'package:cashflow/controller/entrycontroller.dart';
@@ -16,6 +18,8 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreen extends State<AddScreen> {
+  EntryController _ec = EntryController();
+
   TextEditingController descriptionController = TextEditingController();
   TextEditingController moneyController = TextEditingController();
 
@@ -25,6 +29,17 @@ class _AddScreen extends State<AddScreen> {
   void initState() {
     super.initState();
     typeVal = types[0];
+  }
+
+  void insert() {
+    if (moneyController.text == "" || descriptionController.text == "") {
+      return;
+    }
+    _ec.insert(
+      descriptionController.text,
+      int.parse(moneyController.text),
+      typeVal,
+    );
   }
 
   @override
@@ -49,6 +64,7 @@ class _AddScreen extends State<AddScreen> {
                 ),
                 child: TextButton(
                     onPressed: () {
+                      insert();
                       Navigator.pop(context);
                     },
                     child: const Text("Confirm",
