@@ -3,22 +3,25 @@
 import 'package:flutter/material.dart';
 
 import 'package:cashflow/controller/entrycontroller.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class AddView extends StatelessWidget {
+  const AddView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return AddScreen();
+    return const AddScreen();
   }
 }
 
 class AddScreen extends StatefulWidget {
+  const AddScreen({Key? key}) : super(key: key);
+
   @override
   State<AddScreen> createState() => _AddScreen();
 }
 
 class _AddScreen extends State<AddScreen> {
-  EntryController _ec = EntryController();
+  final EntryController _ec = EntryController();
 
   TextEditingController descriptionController = TextEditingController();
   TextEditingController moneyController = TextEditingController();

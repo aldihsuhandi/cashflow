@@ -25,7 +25,7 @@ class Entry {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'descriptions': description,
+      'description': description,
       'money': money,
       'type': type,
     };

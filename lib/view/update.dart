@@ -50,6 +50,12 @@ class _UpdateScreen extends State<UpdateScreen> {
     if (moneyController.text == "" || descriptionController.text == "") {
       return;
     }
+
+    int id = widget.id;
+    String description = descriptionController.text;
+    int money = int.parse(moneyController.text);
+    String type = typeVal;
+    _ec.update(id, description, money, type);
     // _ec.insert(
     //   descriptionController.text,
     //   int.parse(moneyController.text),
@@ -75,13 +81,14 @@ class _UpdateScreen extends State<UpdateScreen> {
                 height: 30,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Color(0xffbf616a),
+                  color: Color(0xffa3be8c),
                 ),
                 child: TextButton(
                     onPressed: () {
                       Navigator.pop(context);
+                      update();
                     },
-                    child: const Text("Cancel",
+                    child: const Text("Confirm",
                         style: TextStyle(color: Colors.white, fontSize: 12))),
               ),
             ],

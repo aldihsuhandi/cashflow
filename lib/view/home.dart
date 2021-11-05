@@ -1,3 +1,4 @@
+import 'package:cashflow/view/update.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cashflow/view/add.dart';
@@ -5,6 +6,8 @@ import 'package:cashflow/controller/entrycontroller.dart';
 import 'package:cashflow/model/entry.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _HomePageState();
@@ -77,12 +80,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                   decoration: const BoxDecoration(
                     color: Colors.red,
-                    // borderRadius: BorderRadius.only(
-                    //   topLeft: Radius.circular(10),
-                    //   topRight: Radius.circular(10),
-                    //   bottomLeft: Radius.circular(10),
-                    //   bottomRight: Radius.circular(10),
-                    // ),
                   ),
                 ),
                 child: Container(
@@ -109,32 +106,42 @@ class _HomePageState extends State<HomePage> {
                           offset: const Offset(0, 3)),
                     ],
                   ),
-                  child: Container(
-                    padding: const EdgeInsets.all(3),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text(
-                                description,
-                                style:
-                                    const TextStyle(color: Color(0xff2e3440)),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                type,
-                                style:
-                                    const TextStyle(color: Color(0xff2e3440)),
-                              )
-                            ],
-                          ),
-                          Text("Rp." + money.toString()),
-                        ]),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      UpdateView(id, description, money, type)))
+                          .then(onGoBack);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(3),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  description,
+                                  style:
+                                      const TextStyle(color: Color(0xff2e3440)),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  type,
+                                  style:
+                                      const TextStyle(color: Color(0xff2e3440)),
+                                )
+                              ],
+                            ),
+                            Text("Rp." + money.toString()),
+                          ]),
+                    ),
                   ),
                 ),
               ));
