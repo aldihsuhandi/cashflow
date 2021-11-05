@@ -7,6 +7,7 @@ void main() async {
   runApp(
     MaterialApp(
       theme: ThemeData(
+        fontFamily: 'Roboto',
         backgroundColor: HexColor('#7aa6ed'),
         primaryColor: HexColor('#eceff4'),
       ),

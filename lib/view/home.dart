@@ -17,7 +17,6 @@ class _HomePageState extends State<HomePage> {
   late Widget listEntry;
 
   onGoBack(dynamic value) {
-    print("test");
     setState(() {});
   }
 
@@ -54,34 +53,90 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.hasData) {
             List<Widget> child = [];
             for (int i = 0; i < snapshot.data!.length; ++i) {
+              int id = snapshot.data![i].id;
               String description = snapshot.data![i].description;
               int money = snapshot.data![i].money;
               String type = snapshot.data![i].type;
-              child.add(Container(
-                padding: const EdgeInsets.only(
-                  bottom: 5,
-                  left: 3,
-                  right: 3,
-                  top: 5,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10),
+              child.add(Dismissible(
+                key: UniqueKey(),
+                onDismissed: (direction) {
+                  setState(() {
+                    _ec.delete(id);
+                  });
+                },
+                background: Container(
+                  margin: const EdgeInsets.only(
+                    top: 10,
+                    bottom: 10,
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 1,
-                        offset: const Offset(0, 3)),
-                  ],
+                  padding: const EdgeInsets.only(
+                    bottom: 7,
+                    left: 3,
+                    right: 3,
+                    top: 7,
+                  ),
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    // borderRadius: BorderRadius.only(
+                    //   topLeft: Radius.circular(10),
+                    //   topRight: Radius.circular(10),
+                    //   bottomLeft: Radius.circular(10),
+                    //   bottomRight: Radius.circular(10),
+                    // ),
+                  ),
                 ),
-                child: Row(children: [
-                  Text(description),
-                ]),
+                child: Container(
+                  margin: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.only(
+                    bottom: 7,
+                    left: 3,
+                    right: 3,
+                    top: 7,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 7,
+                          offset: const Offset(0, 3)),
+                    ],
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.all(3),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                description,
+                                style:
+                                    const TextStyle(color: Color(0xff2e3440)),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                type,
+                                style:
+                                    const TextStyle(color: Color(0xff2e3440)),
+                              )
+                            ],
+                          ),
+                          Text("Rp." + money.toString()),
+                        ]),
+                  ),
+                ),
               ));
             }
 

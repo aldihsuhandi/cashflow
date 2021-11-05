@@ -89,7 +89,12 @@ class DatabaseHelper {
   Future<void> updateEntry(Entry entry) async {
     var dbInstance = await database;
 
-    await dbInstance
-        .update('Entry', entry.toMap(), where: 'id = ?', whereArgs: [entry.id]);
+    await dbInstance.update('entries', entry.toMap(),
+        where: 'id = ?', whereArgs: [entry.id]);
+  }
+
+  Future<void> deleteEntry(int id) async {
+    var dbInstance = await database;
+    await dbInstance.delete('entries', where: 'id = ?', whereArgs: [id]);
   }
 }

@@ -25,4 +25,14 @@ class EntryController {
     }
     return entries;
   }
+
+  void update(int id, String description, int money, String type) {
+    Entry entry =
+        Entry(id: id, description: description, money: money, type: type);
+    dbHelper.updateEntry(entry);
+  }
+
+  void delete(int id) {
+    dbHelper.deleteEntry(id);
+  }
 }
