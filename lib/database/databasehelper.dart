@@ -39,12 +39,6 @@ class DatabaseHelper {
           money INTEGER NOT NULL,
           type TEXT NOT NULL
         )''');
-
-    await db.execute('''
-      INSERT INTO entries(description, money, type)
-      VALUES ('Dummy Data', 10000, 'Credit'),
-             ('Dummy Data', 100000, 'Debit')
-    ''');
   }
 
   // Helper methods
@@ -72,18 +66,6 @@ class DatabaseHelper {
           money: maps[i]['money'],
           type: maps[i]['type']);
     });
-
-    // List<Map> list = await dbInstance.rawQuery('SELECT * FROM entries');
-    // List<Entry> entries = [];
-
-    // for (int i = 0; i < list.length; i++) {
-    //   entries.add(
-    //       Entry(list[i]["description"], list[i]["money"], list[i]["type"]));
-    // }
-
-    // // ignore: avoid_print
-    // print(entries);
-    // return entries;
   }
 
   Future<void> updateEntry(Entry entry) async {

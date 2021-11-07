@@ -89,7 +89,7 @@ class _UpdateScreen extends State<UpdateScreen> {
                       update();
                     },
                     child: const Text("Confirm",
-                        style: TextStyle(color: Colors.white, fontSize: 12))),
+                        style: TextStyle(color: Colors.white, fontSize: 10))),
               ),
             ],
           ),

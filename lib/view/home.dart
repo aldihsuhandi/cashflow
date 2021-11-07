@@ -38,8 +38,10 @@ class _HomePageState extends State<HomePage> {
               ),
               IconButton(
                 onPressed: () {
-                  Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => AddView()))
+                  Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const AddView()))
                       .then(onGoBack);
                 },
                 icon: const Icon(

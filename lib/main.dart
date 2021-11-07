@@ -11,7 +11,7 @@ void main() async {
         backgroundColor: HexColor('#7aa6ed'),
         primaryColor: HexColor('#eceff4'),
       ),
-      home: HomePage(),
+      home: const HomePage(),
     ),
   );
 }

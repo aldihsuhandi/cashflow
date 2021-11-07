@@ -71,7 +71,7 @@ class _AddScreen extends State<AddScreen> {
                       Navigator.pop(context);
                     },
                     child: const Text("Confirm",
-                        style: TextStyle(color: Colors.white, fontSize: 12))),
+                        style: TextStyle(color: Colors.white, fontSize: 10))),
               ),
             ],
           ),
