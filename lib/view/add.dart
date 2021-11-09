@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:cashflow/controller/entrycontroller.dart';
+import 'package:intl/intl.dart';
 
 class AddView extends StatelessWidget {
   const AddView({Key? key}) : super(key: key);
@@ -22,9 +23,17 @@ class AddScreen extends StatefulWidget {
 
 class _AddScreen extends State<AddScreen> {
   final EntryController _ec = EntryController();
+  final dateFormat = DateFormat("dd MMMM yyyy");
 
   TextEditingController descriptionController = TextEditingController();
   TextEditingController moneyController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+
+  bool _descriptionValid = true;
+  bool _moneyValid = true;
+  bool _dateValid = true;
+
+  DateTime? date;
 
   List<String> types = ["Credit", "Debit"];
   String typeVal = "";
@@ -34,15 +43,52 @@ class _AddScreen extends State<AddScreen> {
     typeVal = types[0];
   }
 
-  void insert() {
-    if (moneyController.text == "" || descriptionController.text == "") {
+  void insert(BuildContext context) {
+    bool isFinish = true;
+    setState(() {
+      _descriptionValid = true;
+      _moneyValid = true;
+      _dateValid = true;
+      if (descriptionController.text.isEmpty) {
+        isFinish = false;
+        _descriptionValid = false;
+      }
+
+      if (moneyController.text.isEmpty) {
+        isFinish = false;
+        _moneyValid = false;
+      }
+
+      if (dateController.text.isEmpty) {
+        isFinish = false;
+        _dateValid = false;
+      }
+    });
+
+    if (isFinish == false) {
       return;
     }
-    _ec.insert(
-      descriptionController.text,
-      int.parse(moneyController.text),
-      typeVal,
+
+    _ec.insert(descriptionController.text, int.parse(moneyController.text),
+        typeVal, date!);
+
+    Navigator.pop(context);
+  }
+
+  _selectDate(BuildContext context) async {
+    DateTime? newDate = await showDatePicker(
+      context: context,
+      initialDate: date ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
     );
+
+    if (newDate != null && newDate != date) {
+      setState(() {
+        date = newDate;
+        dateController.text = dateFormat.format(date!).toString();
+      });
+    }
   }
 
   @override
@@ -67,8 +113,7 @@ class _AddScreen extends State<AddScreen> {
                 ),
                 child: TextButton(
                     onPressed: () {
-                      insert();
-                      Navigator.pop(context);
+                      insert(context);
                     },
                     child: const Text("Confirm",
                         style: TextStyle(color: Colors.white, fontSize: 10))),
@@ -79,18 +124,41 @@ class _AddScreen extends State<AddScreen> {
       ),
       body: Container(
         padding: const EdgeInsets.all(10),
-        child: Column(children: [
+        child: ListView(children: [
           TextField(
             controller: descriptionController,
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(), labelText: 'Description'),
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: 'Description',
+              errorText: _descriptionValid == true
+                  ? null
+                  : "Description Can't Be Empty",
+            ),
           ),
           const SizedBox(height: 10),
           TextField(
             controller: moneyController,
             keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(), labelText: 'Rp. '),
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: 'Rp. ',
+              errorText: _moneyValid == true ? null : "Money Can't Be Empty",
+            ),
+          ),
+          const SizedBox(height: 12),
+          TextField(
+            controller: dateController,
+            readOnly: true,
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: 'Date',
+              errorText: _dateValid == true ? null : "Date Can't Be Empty",
+            ),
+            onTap: () {
+              Future.delayed(Duration.zero, () async {
+                _selectDate(context);
+              });
+            },
           ),
           const SizedBox(height: 12),
           Row(

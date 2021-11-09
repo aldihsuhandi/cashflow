@@ -37,7 +37,8 @@ class DatabaseHelper {
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           description TEXT NOT NULL,
           money INTEGER NOT NULL,
-          type TEXT NOT NULL
+          type TEXT NOT NULL,
+          date TEXT NOT NULL
         )''');
   }
 
@@ -46,11 +47,12 @@ class DatabaseHelper {
     String entryDesc = entry.description;
     int entryMoney = entry.money;
     String entryType = entry.type;
+    String entryDate = entry.date.toString();
     var dbInstance = await database;
     await dbInstance.transaction((txn) async {
       return await txn.rawInsert('''
-          INSERT INTO entries(description, money, type)
-          VALUES ('$entryDesc', '$entryMoney', '$entryType')
+          INSERT INTO entries(description, money, type, date)
+          VALUES ('$entryDesc', '$entryMoney', '$entryType', '$entryDate')
         ''');
     });
   }
@@ -64,7 +66,8 @@ class DatabaseHelper {
           id: maps[i]['id'],
           description: maps[i]['description'],
           money: maps[i]['money'],
-          type: maps[i]['type']);
+          type: maps[i]['type'],
+          date: DateTime.parse(maps[i]['date']));
     });
   }
 

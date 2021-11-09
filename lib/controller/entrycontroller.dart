@@ -5,12 +5,12 @@ import 'package:cashflow/model/entry.dart';
 
 class EntryController {
   final dbHelper = DatabaseHelper.instance;
-  void insert(String description, int money, String type) async {
+  void insert(String description, int money, String type, DateTime date) async {
     print(description);
     print(money);
     print(type);
-    Entry entry =
-        Entry(id: 0, description: description, money: money, type: type);
+    Entry entry = Entry(
+        id: 0, description: description, money: money, type: type, date: date);
     dbHelper.saveEntry(entry);
   }
 
@@ -26,13 +26,18 @@ class EntryController {
     return entries;
   }
 
-  void update(int id, String description, int money, String type) {
-    Entry entry =
-        Entry(id: id, description: description, money: money, type: type);
+  void update(
+      int id, String description, int money, String type, DateTime date) {
+    Entry entry = Entry(
+        id: id, description: description, money: money, type: type, date: date);
     dbHelper.updateEntry(entry);
   }
 
   void delete(int id) {
     dbHelper.deleteEntry(id);
+  }
+
+  void export() async {
+    List<Entry> entries = await getEntry();
   }
 }

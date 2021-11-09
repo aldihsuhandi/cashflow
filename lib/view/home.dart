@@ -1,5 +1,6 @@
 import 'package:cashflow/view/update.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:cashflow/view/add.dart';
 import 'package:cashflow/controller/entrycontroller.dart';
@@ -16,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final EntryController _ec = EntryController();
+  final dateFormat = DateFormat("dd MMMM yyyy");
 
   late Widget listEntry;
 
@@ -62,6 +64,7 @@ class _HomePageState extends State<HomePage> {
               String description = snapshot.data![i].description;
               int money = snapshot.data![i].money;
               String type = snapshot.data![i].type;
+              DateTime date = snapshot.data![i].date;
               child.add(Dismissible(
                 key: UniqueKey(),
                 onDismissed: (direction) {
@@ -108,8 +111,8 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      UpdateView(id, description, money, type)))
+                                  builder: (context) => UpdateView(
+                                      id, description, money, type, date)))
                           .then(onGoBack);
                     },
                     child: Container(
@@ -136,7 +139,21 @@ class _HomePageState extends State<HomePage> {
                                 )
                               ],
                             ),
-                            Text("Rp." + money.toString()),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text("Rp." + money.toString()),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  dateFormat.format(date),
+                                  style: const TextStyle(
+                                      fontSize: 12, color: Colors.grey),
+                                )
+                              ],
+                            ),
                           ]),
                     ),
                   ),

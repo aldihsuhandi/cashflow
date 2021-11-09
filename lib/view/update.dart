@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:cashflow/controller/entrycontroller.dart';
 
@@ -9,12 +10,13 @@ class UpdateView extends StatelessWidget {
   final String description;
   final int money;
   final String type;
+  final DateTime date;
   // ignore: use_key_in_widget_constructors
-  const UpdateView(this.id, this.description, this.money, this.type);
+  const UpdateView(this.id, this.description, this.money, this.type, this.date);
 
   @override
   Widget build(BuildContext context) {
-    return UpdateScreen(id, description, money, type);
+    return UpdateScreen(id, description, money, type, date);
   }
 }
 
@@ -23,8 +25,10 @@ class UpdateScreen extends StatefulWidget {
   final String description;
   final int money;
   final String type;
+  final DateTime date;
   // ignore: use_key_in_widget_constructors
-  const UpdateScreen(this.id, this.description, this.money, this.type);
+  const UpdateScreen(
+      this.id, this.description, this.money, this.type, this.date);
 
   @override
   State<UpdateScreen> createState() => _UpdateScreen();
@@ -32,22 +36,53 @@ class UpdateScreen extends StatefulWidget {
 
 class _UpdateScreen extends State<UpdateScreen> {
   final EntryController _ec = EntryController();
+  final dateFormat = DateFormat("dd MMMM yyyy");
 
   TextEditingController descriptionController = TextEditingController();
   TextEditingController moneyController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+
+  late DateTime date;
+
+  bool _descriptionValid = true;
+  bool _moneyValid = true;
+  bool _dateValid = true;
 
   List<String> types = ["Credit", "Debit"];
   String typeVal = "";
   @override
   void initState() {
     super.initState();
+    date = widget.date;
     typeVal = widget.type;
     descriptionController.text = widget.description;
     moneyController.text = widget.money.toString();
+    dateController.text = dateFormat.format(date).toString();
   }
 
-  void update() {
-    if (moneyController.text == "" || descriptionController.text == "") {
+  void update(BuildContext context) {
+    bool isFinish = true;
+    setState(() {
+      _descriptionValid = true;
+      _moneyValid = true;
+      _dateValid = true;
+      if (descriptionController.text.isEmpty) {
+        isFinish = false;
+        _descriptionValid = false;
+      }
+
+      if (moneyController.text.isEmpty) {
+        isFinish = false;
+        _moneyValid = false;
+      }
+
+      if (dateController.text.isEmpty) {
+        isFinish = false;
+        _dateValid = false;
+      }
+    });
+
+    if (isFinish == false) {
       return;
     }
 
@@ -55,12 +90,24 @@ class _UpdateScreen extends State<UpdateScreen> {
     String description = descriptionController.text;
     int money = int.parse(moneyController.text);
     String type = typeVal;
-    _ec.update(id, description, money, type);
-    // _ec.insert(
-    //   descriptionController.text,
-    //   int.parse(moneyController.text),
-    //   typeVal,
-    // );
+    _ec.update(id, description, money, type, date);
+    Navigator.pop(context);
+  }
+
+  _selectDate(BuildContext context) async {
+    DateTime? newDate = await showDatePicker(
+      context: context,
+      initialDate: date,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (newDate != null && newDate != date) {
+      setState(() {
+        date = newDate;
+        dateController.text = dateFormat.format(date).toString();
+      });
+    }
   }
 
   @override
@@ -85,8 +132,7 @@ class _UpdateScreen extends State<UpdateScreen> {
                 ),
                 child: TextButton(
                     onPressed: () {
-                      Navigator.pop(context);
-                      update();
+                      update(context);
                     },
                     child: const Text("Confirm",
                         style: TextStyle(color: Colors.white, fontSize: 10))),
@@ -100,15 +146,38 @@ class _UpdateScreen extends State<UpdateScreen> {
         child: Column(children: [
           TextField(
             controller: descriptionController,
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(), labelText: 'Description'),
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: 'Description',
+              errorText: _descriptionValid == true
+                  ? null
+                  : "Description Can't Be Empty",
+            ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 12),
           TextField(
             controller: moneyController,
             keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(), labelText: 'Rp. '),
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: 'Rp. ',
+              errorText: _moneyValid == true ? null : "Money Can't Be Empty",
+            ),
+          ),
+          const SizedBox(height: 12),
+          TextField(
+            controller: dateController,
+            readOnly: true,
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: 'Date',
+              errorText: _dateValid == true ? null : "Date Can't Be Empty",
+            ),
+            onTap: () {
+              Future.delayed(Duration.zero, () async {
+                _selectDate(context);
+              });
+            },
           ),
           const SizedBox(height: 12),
           Row(
