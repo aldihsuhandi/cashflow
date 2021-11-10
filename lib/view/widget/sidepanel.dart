@@ -21,6 +21,7 @@ class SidePanel extends StatelessWidget {
             ListTile(
               title: const Text("Summary"),
               onTap: () => {
+                Navigator.pop(context),
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => SummaryView()))
               },

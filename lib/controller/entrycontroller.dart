@@ -25,4 +25,11 @@ class EntryController {
   void delete(int id) {
     dbHelper.deleteEntry(id);
   }
+
+  void export() async {
+    List<Entry> entries = await getEntry();
+    for (int i = 0; i < entries.length; ++i) {
+      print(entries[i].money);
+    }
+  }
 }
