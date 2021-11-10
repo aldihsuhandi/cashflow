@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 
 import 'package:cashflow/controller/entrycontroller.dart';
 
-class UpdateView extends StatelessWidget {
+class UpdateView extends StatefulWidget {
   final int id;
   final String description;
   final int money;
@@ -15,26 +15,10 @@ class UpdateView extends StatelessWidget {
   const UpdateView(this.id, this.description, this.money, this.type, this.date);
 
   @override
-  Widget build(BuildContext context) {
-    return UpdateScreen(id, description, money, type, date);
-  }
+  State<UpdateView> createState() => _UpdateView();
 }
 
-class UpdateScreen extends StatefulWidget {
-  final int id;
-  final String description;
-  final int money;
-  final String type;
-  final DateTime date;
-  // ignore: use_key_in_widget_constructors
-  const UpdateScreen(
-      this.id, this.description, this.money, this.type, this.date);
-
-  @override
-  State<UpdateScreen> createState() => _UpdateScreen();
-}
-
-class _UpdateScreen extends State<UpdateScreen> {
+class _UpdateView extends State<UpdateView> {
   final EntryController _ec = EntryController();
   final dateFormat = DateFormat("dd MMMM yyyy");
 
@@ -143,7 +127,7 @@ class _UpdateScreen extends State<UpdateScreen> {
       ),
       body: Container(
         padding: const EdgeInsets.all(10),
-        child: Column(children: [
+        child: ListView(children: [
           TextField(
             controller: descriptionController,
             decoration: InputDecoration(

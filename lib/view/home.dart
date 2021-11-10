@@ -1,9 +1,12 @@
-import 'package:cashflow/view/update.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'package:cashflow/view/update.dart';
 import 'package:cashflow/view/add.dart';
+import 'package:cashflow/view/widget/sidepanel.dart';
+
 import 'package:cashflow/controller/entrycontroller.dart';
+
 import 'package:cashflow/model/entry.dart';
 
 class HomePage extends StatefulWidget {
@@ -54,6 +57,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+      drawer: const SidePanel(),
       body: FutureBuilder<List<Entry>>(
         future: _ec.getEntry(),
         builder: (context, AsyncSnapshot<List<Entry>> snapshot) {
