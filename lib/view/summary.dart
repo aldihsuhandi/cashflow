@@ -6,8 +6,6 @@ import 'package:cashflow/model/entry.dart';
 import 'package:cashflow/controller/entrycontroller.dart';
 
 class SummaryView extends StatelessWidget {
-  SummaryView({Key? key}) : super(key: key);
-
   final EntryController _ec = EntryController();
 
   @override
@@ -15,29 +13,10 @@ class SummaryView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
-        title: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                "Summary",
-                style: TextStyle(fontSize: 14),
-              ),
-              Container(
-                width: 60,
-                height: 30,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Color(0xffa3be8c),
-                ),
-                child: TextButton(
-                    onPressed: () {
-                      _ec.export();
-                    },
-                    child: const Text("Export",
-                        style: TextStyle(color: Colors.white, fontSize: 10))),
-              ),
-            ],
+        title: const Center(
+          child: Text(
+            "CashFlow",
+            style: TextStyle(fontSize: 14),
           ),
         ),
       ),

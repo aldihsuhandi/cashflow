@@ -9,6 +9,7 @@ class EntryController {
     dbHelper.saveEntry(entry);
   }
 
+  /// This class is for getting every list from the database
   Future<List<Entry>> getEntry() async {
     List<Entry> entries = await dbHelper.getEntries();
     dbHelper.getEntries().then((value) => {entries = value});

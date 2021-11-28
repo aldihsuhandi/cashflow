@@ -1,3 +1,4 @@
+import 'package:cashflow/view/mainview.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -14,7 +15,7 @@ void main() async {
           bodyText2: TextStyle(color: Color(0xff2e3440)),
         ),
       ),
-      home: const HomePage(),
+      home: const MainView(),
     ),
   );
 }

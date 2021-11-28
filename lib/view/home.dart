@@ -33,31 +33,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
-        title: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                "CashFlow",
-                style: TextStyle(fontSize: 14),
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const AddView()))
-                      .then(onGoBack);
-                },
-                icon: const Icon(
-                  Icons.add,
-                ),
-              ),
-            ],
+        title: const Center(
+          child: Text(
+            "CashFlow",
+            style: TextStyle(fontSize: 14),
           ),
         ),
       ),
-      drawer: const SidePanel(),
+      // drawer: const SidePanel(),
       body: FutureBuilder<List<Entry>>(
         future: _ec.getEntry(),
         builder: (context, AsyncSnapshot<List<Entry>> snapshot) {

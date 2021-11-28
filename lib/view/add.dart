@@ -35,7 +35,7 @@ class _AddScreen extends State<AddScreen> {
 
   DateTime? date;
 
-  List<String> types = ["Credit", "Debit"];
+  List<String> types = ["Pengeluaran", "Pendapatan"];
   String typeVal = "";
   @override
   void initState() {
@@ -71,8 +71,6 @@ class _AddScreen extends State<AddScreen> {
 
     _ec.insert(descriptionController.text, int.parse(moneyController.text),
         typeVal, date!);
-
-    Navigator.pop(context);
   }
 
   _selectDate(BuildContext context) async {

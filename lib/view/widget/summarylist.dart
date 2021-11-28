@@ -41,7 +41,7 @@ class _SummaryList extends State<SummaryList> {
         mapEntry[year]![month] = [0, 0];
       }
 
-      if (type == "Credit") {
+      if (type == "Pengeluaran") {
         mapEntry[year]![month]![0] += money;
       } else {
         mapEntry[year]![month]![1] += money;
@@ -90,6 +90,8 @@ class _SummaryList extends State<SummaryList> {
             Container(
               margin: const EdgeInsets.only(
                 top: 4,
+                left: 3,
+                right: 3,
                 bottom: 4,
               ),
               padding: const EdgeInsets.only(
@@ -110,7 +112,7 @@ class _SummaryList extends State<SummaryList> {
                 ],
               ),
               child: Container(
-                padding: const EdgeInsets.all(2),
+                padding: const EdgeInsets.all(5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
