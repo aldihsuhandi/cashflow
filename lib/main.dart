@@ -1,8 +1,7 @@
-import 'package:cashflow/view/mainview.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import 'package:cashflow/view/home.dart';
+import 'package:cashflow/view/mainview.dart';
 
 void main() async {
   runApp(

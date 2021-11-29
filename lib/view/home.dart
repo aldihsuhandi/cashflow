@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:cashflow/view/update.dart';
-import 'package:cashflow/view/add.dart';
-import 'package:cashflow/view/widget/sidepanel.dart';
 
 import 'package:cashflow/controller/entrycontroller.dart';
 
 import 'package:cashflow/model/entry.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
+  late _HomePageState homepagestate;
 
   @override
+  // ignore: no_logic_in_create_state
   State<StatefulWidget> createState() {
-    return _HomePageState();
+    homepagestate = _HomePageState();
+    return homepagestate;
   }
+
+  getState() => homepagestate;
 }
 
 class _HomePageState extends State<HomePage> {
@@ -130,7 +133,13 @@ class _HomePageState extends State<HomePage> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text("Rp." + money.toString()),
+                                Text(
+                                  "Rp." + money.toString(),
+                                  style: TextStyle(
+                                      color: type == "Pengeluaran"
+                                          ? Colors.red
+                                          : Colors.green),
+                                ),
                                 const SizedBox(
                                   height: 5,
                                 ),

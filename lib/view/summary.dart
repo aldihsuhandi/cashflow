@@ -8,6 +8,8 @@ import 'package:cashflow/controller/entrycontroller.dart';
 class SummaryView extends StatelessWidget {
   final EntryController _ec = EntryController();
 
+  SummaryView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

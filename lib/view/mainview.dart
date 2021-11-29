@@ -15,16 +15,19 @@ class _MainView extends State<MainView> {
   int _selectedIndex = 0;
   final PageController _bodyController = PageController();
 
-  final List<Widget> _pageOptions = [
-    const HomePage(),
-    SummaryView(),
-    const AddView(),
-  ];
+  // final List<Widget> _pageOptions = [
+  //   HomePage(),
+  //   SummaryView(),
+  //   AddView(notifyPageView: (){
+  //     setState(() {
+
+  //     });
+  //   },),
+  // ];
 
   void _onTapped(int index) {
     setState(() {
-      int len = _pageOptions.length - 1;
-      if (index < len) {
+      if (index < 2) {
         _selectedIndex = index;
       }
       _bodyController.animateToPage(index,
@@ -38,7 +41,13 @@ class _MainView extends State<MainView> {
       resizeToAvoidBottomInset: false,
       body: PageView(
         controller: _bodyController,
-        children: _pageOptions,
+        children: [
+          HomePage(),
+          SummaryView(),
+          AddView(notifyPageView: () {
+            _onTapped(0);
+          })
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
@@ -51,6 +60,8 @@ class _MainView extends State<MainView> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
+            // color: Theme.of(context).backgroundColor,
+            backgroundColor: Color(0xff7aa6ed),
             icon: Icon(Icons.home),
             label: 'Home',
           ),

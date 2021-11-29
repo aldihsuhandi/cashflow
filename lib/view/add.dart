@@ -5,23 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:cashflow/controller/entrycontroller.dart';
 import 'package:intl/intl.dart';
 
-class AddView extends StatelessWidget {
-  const AddView({Key? key}) : super(key: key);
+class AddView extends StatefulWidget {
+  final Function() notifyPageView;
+  const AddView({Key? key, required this.notifyPageView}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return const AddScreen();
-  }
+  State<AddView> createState() => _AddView();
 }
 
-class AddScreen extends StatefulWidget {
-  const AddScreen({Key? key}) : super(key: key);
-
-  @override
-  State<AddScreen> createState() => _AddScreen();
-}
-
-class _AddScreen extends State<AddScreen> {
+class _AddView extends State<AddView> {
   final EntryController _ec = EntryController();
   final dateFormat = DateFormat("dd MMMM yyyy");
 
@@ -71,6 +63,14 @@ class _AddScreen extends State<AddScreen> {
 
     _ec.insert(descriptionController.text, int.parse(moneyController.text),
         typeVal, date!);
+
+    widget.notifyPageView();
+    descriptionController.text = "";
+    moneyController.text = "";
+    dateController.text = "";
+    date = null;
+
+    FocusScope.of(context).unfocus();
   }
 
   _selectDate(BuildContext context) async {
@@ -102,19 +102,16 @@ class _AddScreen extends State<AddScreen> {
                 "CashFlow",
                 style: TextStyle(fontSize: 14),
               ),
-              Container(
-                width: 60,
-                height: 30,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Color(0xffa3be8c),
+              IconButton(
+                onPressed: () {
+                  insert(context);
+                },
+                icon: const Icon(
+                  Icons.check,
+                  color: Colors.white,
                 ),
-                child: TextButton(
-                    onPressed: () {
-                      insert(context);
-                    },
-                    child: const Text("Confirm",
-                        style: TextStyle(color: Colors.white, fontSize: 10))),
+                // child: const Text("Confirm",
+                //     style: TextStyle(color: Colors.white, fontSize: 10))),
               ),
             ],
           ),
