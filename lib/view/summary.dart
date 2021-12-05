@@ -25,10 +25,17 @@ class SummaryView extends StatelessWidget {
       body: FutureBuilder<List<Entry>>(
         future: _ec.getEntry(),
         builder: (context, AsyncSnapshot<List<Entry>> snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             return SummaryList(snapshot.data!);
           } else {
-            return const Text("Null");
+            return Center(
+              child: Container(
+                margin: const EdgeInsets.all(10),
+                alignment: Alignment.center,
+                height: MediaQuery.of(context).size.height,
+                child: const Text("There is no data"),
+              ),
+            );
           }
         },
       ),
