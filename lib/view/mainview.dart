@@ -13,25 +13,21 @@ class MainView extends StatefulWidget {
 
 class _MainView extends State<MainView> {
   int _selectedIndex = 0;
-  final PageController _bodyController = PageController();
 
-  // final List<Widget> _pageOptions = [
-  //   HomePage(),
-  //   SummaryView(),
-  //   AddView(notifyPageView: (){
-  //     setState(() {
-
-  //     });
-  //   },),
-  // ];
+  static final List<Widget> _widgetOptions = [
+    HomePage(key: UniqueKey()),
+    SummaryView()
+  ];
 
   void _onTapped(int index) {
     setState(() {
-      if (index < 2) {
-        _selectedIndex = index;
-      }
-      _bodyController.animateToPage(index,
-          duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
+      _selectedIndex = index;
+    });
+  }
+
+  onGoBack(dynamic value) {
+    setState(() {
+      _widgetOptions[0] = HomePage(key: UniqueKey());
     });
   }
 
@@ -39,20 +35,13 @@ class _MainView extends State<MainView> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: PageView(
-        controller: _bodyController,
-        children: [
-          HomePage(),
-          SummaryView(),
-          AddView(notifyPageView: () {
-            _onTapped(0);
-          })
-        ],
-      ),
+      body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            _onTapped(2);
+            Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const AddView()))
+                .then(onGoBack);
           },
           tooltip: 'Add new',
           child: const Icon(Icons.add),
@@ -60,7 +49,6 @@ class _MainView extends State<MainView> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            // color: Theme.of(context).backgroundColor,
             backgroundColor: Color(0xff7aa6ed),
             icon: Icon(Icons.home),
             label: 'Home',

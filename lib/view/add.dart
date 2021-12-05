@@ -6,8 +6,8 @@ import 'package:cashflow/controller/entrycontroller.dart';
 import 'package:intl/intl.dart';
 
 class AddView extends StatefulWidget {
-  final Function() notifyPageView;
-  const AddView({Key? key, required this.notifyPageView}) : super(key: key);
+  // final Function() notifyPageView;
+  const AddView({Key? key}) : super(key: key);
 
   @override
   State<AddView> createState() => _AddView();
@@ -64,13 +64,15 @@ class _AddView extends State<AddView> {
     _ec.insert(descriptionController.text, int.parse(moneyController.text),
         typeVal, date!);
 
-    widget.notifyPageView();
+    // widget.notifyPageView();
     descriptionController.text = "";
     moneyController.text = "";
     dateController.text = "";
     date = null;
 
     FocusScope.of(context).unfocus();
+
+    Navigator.pop(context);
   }
 
   _selectDate(BuildContext context) async {
@@ -110,8 +112,6 @@ class _AddView extends State<AddView> {
                   Icons.check,
                   color: Colors.white,
                 ),
-                // child: const Text("Confirm",
-                //     style: TextStyle(color: Colors.white, fontSize: 10))),
               ),
             ],
           ),

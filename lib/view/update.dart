@@ -32,7 +32,7 @@ class _UpdateView extends State<UpdateView> {
   bool _moneyValid = true;
   bool _dateValid = true;
 
-  List<String> types = ["Credit", "Debit"];
+  List<String> types = ["Pengeluaran", "Pendapatan"];
   String typeVal = "";
   @override
   void initState() {
@@ -114,12 +114,15 @@ class _UpdateView extends State<UpdateView> {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: Color(0xffa3be8c),
                 ),
-                child: TextButton(
-                    onPressed: () {
-                      update(context);
-                    },
-                    child: const Text("Confirm",
-                        style: TextStyle(color: Colors.white, fontSize: 10))),
+                child: IconButton(
+                  onPressed: () {
+                    update(context);
+                  },
+                  icon: const Icon(
+                    Icons.check,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ],
           ),
