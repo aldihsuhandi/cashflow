@@ -107,21 +107,13 @@ class _UpdateView extends State<UpdateView> {
                 "CashFlow",
                 style: TextStyle(fontSize: 14),
               ),
-              Container(
-                width: 60,
-                height: 30,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Color(0xffa3be8c),
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    update(context);
-                  },
-                  icon: const Icon(
-                    Icons.check,
-                    color: Colors.white,
-                  ),
+              IconButton(
+                onPressed: () {
+                  update(context);
+                },
+                icon: const Icon(
+                  Icons.check,
+                  color: Colors.white,
                 ),
               ),
             ],

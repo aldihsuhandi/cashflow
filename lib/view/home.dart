@@ -23,6 +23,10 @@ class _HomePageState extends State<HomePage> {
 
   late Widget listEntry;
 
+  static addScreenStack() {
+    ;
+  }
+
   onGoBack(dynamic value) {
     setState(() {});
   }
